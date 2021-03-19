@@ -24,11 +24,13 @@ export const initialData = {
         resume: "https://resume-resource.com/pdf/extec21.pdf",
       },
       {
+        id:"5",
+
         name: "Jane",
         resume: "https://resume-resource.com/before-after/ba-ex03.pdf",
       },
       {
-        id:"5",
+        id:"6",
   
         name: "Matthew",
         resume: "https://resume-resource.com/before-after/ba-ex06.pdf",

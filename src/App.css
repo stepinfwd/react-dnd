@@ -31,4 +31,22 @@
       font-size: 12px;
     }
   
-  
+/* =================================================
+Dropper============================================ */
+.dropper{
+  width: 400px;
+  /* background-color: aqua; */
+  height: 100vh;
+  color: black;
+}
+.resume-main{
+  width: 500px;
+  /* background-color: aqua; */
+  color: black;
+  height: 100vh;
+  margin-left: 3rem;
+}
+
+.App{
+  display: flex;
+}

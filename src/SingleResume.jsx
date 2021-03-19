@@ -1,12 +1,29 @@
-import React, { useState, useEffect } from "react";
-import { useDrag } from 'react-dnd'
-function SingleResume({ resume, index }) {
+import React, { Fragment, useState, useRef } from "react";
+import { useDrag, useDrop } from "react-dnd";
+function SingleResume({ item, index, resume, status }) {
+  const ref = useRef(null);
 
+  const [, drop] = useDrop({
+    accept: "RESUME",
+  });
+
+  const [ {isDragging} , drag] = useDrag({
+    type: "RESUME",
+
+    item: { type: "RESUME", ...item,id:resume.id },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
+
+
+  drag(drop(ref));
   return (
     <>
       <div
         className="singleResume__container"
-     
+        ref={ref}
+        style={{ opacity: isDragging ? .5 : 1 }}
       >
         <p>name: {resume.name}</p>
         <p>{resume.resume}</p>
