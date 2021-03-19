@@ -1,11 +1,12 @@
 import React, { Fragment, useState, useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
-function SingleResume({ item, index, resume, status }) {
+function SingleResume({ item, index, resume, move }) {
   const ref = useRef(null);
 
   const [, drop] = useDrop({
     accept: "RESUME",
   });
+
 
   const [ {isDragging} , drag] = useDrag({
     type: "RESUME",
