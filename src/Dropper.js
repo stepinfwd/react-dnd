@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { useDrop } from "react-dnd";
 import SingleResume from "./SingleResume";
 
-function Dropper({ move, newList }) {
+function Dropper({ move, newList ,moveCard}) {
   const ref = useRef(null);
 
   const [collectedProps, drop] = useDrop(() => ({
@@ -17,8 +17,8 @@ function Dropper({ move, newList }) {
     <div ref={drop} className="dropper">
       {console.log("newlist isda", newList)}
 
-    {newList.map((user) => (
-        <div className="user"><SingleResume resume={user}></SingleResume></div>
+    {newList.map((card,index) => (
+        <div className="user"><SingleResume  index={index} id={card.id} resume={card} moveCard={moveCard}></SingleResume></div>
       ))}    </div>
   );
 }

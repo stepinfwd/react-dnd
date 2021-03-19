@@ -1,5 +1,6 @@
 import "./App.css";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import update from "immutability-helper";
 
 import SingleResume from "./SingleResume";
 import { initialData } from "./data";
@@ -23,63 +24,58 @@ function App() {
     },
   ]);
 
-  // const move = (_id) => {
-  //   const res = resume.filter((res, i) => res.id === _id);
-  //   console.log("res",resume, res);
-  //   // {resume.map((res)=>console.log("hi",res))}
-  //   console.log("moved", res, _id);
-
-  //   // setnewList([res[0]],()=>{    console.log("newlist", newList);
-  //   // code to update newly dragged item to resume-droppable-container
-  //   const arr = [];
-  //   newList.forEach((item) => {
-  //     arr.push(item);
-  //   });
-  //  arr.push(res[0])
-  //  console.log("arr>>",arr,newList)
-  //   setnewList([...arr]);
-    
-  // };
-  const bkp=newList;
+  const bkp = newList;
   const move = (_id) => {
     const res = resume.find((res, i) => res.id === _id);
-    console.log("res",resume, res);   
+    console.log("res", resume, res);
     console.log("moved", res, _id);
     const arr = [];
     // newList.forEach((item) => {
     //   arr.push(item);
     // });
-    res &&   bkp.push(res)
-   console.log("arr>>",arr,newList)
+    res && bkp.push(res);
+    console.log("arr>>", arr, newList);
     setnewList([...bkp]);
-    
   };
-  // const moveResume = (
-  //   source,
-  //   destination,
-  //   droppableSource,
-  //   droppableDestination
-  // ) => {
-  //   const sourceClone = Array.from(source);
-  //   const destClone = Array.from(destination);
-  //   const [removed] = sourceClone.splice(droppableSource.index, 1);
-  //   destClone.splice(droppableDestination.index, 0, removed);
-  //   const result = {};
-  //   result[droppableSource.droppableId] = sourceClone;
-  //   result[droppableDestination.droppableId] = destClone;
-  //   return result;
-  // };
-  console.group("new",newList)
+  const moveCard = useCallback(
+    (dragIndex, hoverIndex) => {
+      const dragCard = resume[dragIndex];
+      setResume(
+        update(resume, {
+          $splice: [
+            [dragIndex, 1],
+            [hoverIndex, 0, dragCard],
+          ],
+        })
+      );
+    },
+    [resume]
+  );
+  console.group("new", newList);
+  const renderCard = (card, index) => {
+    return (<SingleResume key={card.id} index={index} id={card.id} resume={card} moveCard={moveCard}/>);
+};
+// return (<>
+// <div style={style}></div>
+// </>);
+// }
+// };
+
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="App">
         <div className="resume-sidebar">
           {resume.map((item, index) => (
-            <SingleResume key={index} resume={item} />
+            // <SingleResume
+            //   index={index}
+            //   resume={item}
+            //   moveCard={moveCard}
+            // />
+           renderCard(item, index)
           ))}
         </div>
         <div className="resume-main">
-          <Dropper move={move} newList={newList} />
+          <Dropper move={move} newList={newList} moveCard={moveCard} />
         </div>
       </div>
     </DndProvider>
